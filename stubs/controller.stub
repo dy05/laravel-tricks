@@ -1,0 +1,125 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ rootNamespace }}Http\Requests\{{ model }}Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display {{ model }}'s list.
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request)
+    {
+        ${{ modelVariable }}s = {{ model }}::query();
+
+        if ($query_search = $request->get('query')) {
+            ${{ modelVariable }}s = ${{ modelVariable }}s->where('name', 'LIKE', "%{$query_search}%");
+        }
+
+        return view('{{ modelVariable }}s.index', [
+            '{{ modelVariable }}s' => ${{ modelVariable }}s->get(),
+            'query' => $query_search
+        ]);
+    }
+
+    /**
+     * Show the form to create new {{ model }}.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        ${{ modelVariable }} = new {{ model }};
+
+        return view('{{ modelVariable }}s.showForm', [
+            '{{ modelVariable }}' => ${{ modelVariable }},
+            'editing' => false
+        ]);
+    }
+
+    /**
+     * Store new {{ model }}.
+     *
+     * @param  {{ model }}Request  $request
+     * @return RedirectResponse
+     */
+    public function store({{ model }}Request $request)
+    {
+        $data = $request->all();
+
+        if ({{ model }}::create($data)) {
+            return redirect()->route('{{ modelVariable }}s.index')->with(['success' => 'The {{ modelVariable}} has been added successfully !']);
+        }
+
+        return redirect('/', 500)->with(['error' => 'An unexpected error has occurred']);
+    }
+
+    /**
+     * Show the form to create new {{ model }}.
+     *
+     * @param {{ model }} ${{ modelVariable }}
+     * @return View
+     */
+    public function show({{ model }} ${{ modelVariable }})
+    {
+        return view('{{ modelVariable }}s.show', [
+            '{{ modelVariable }}' => ${{ modelVariable }}
+        ]);
+    }
+
+    /**
+     * Show the form to edit specified {{ model }}.
+     *
+     * @param {{ model }} ${{ modelVariable }}
+     * @return View
+     */
+    public function edit({{ model }} ${{ modelVariable }})
+    {
+        return view('{{ modelVariable }}s.showForm', [
+            '{{ modelVariable }}' => ${{ modelVariable }},
+            'editing' => true
+        ]);
+    }
+
+    /**
+     * Update specified {{ model }}.
+     *
+     * @param  {{ model }}Request  $request
+     * @param  {{ model }}  ${{ modelVariable }}
+     * @return RedirectResponse
+     */
+    public function update({{ model }}Request $request, {{ model }} ${{ modelVariable }})
+    {
+        $data = $request->all();
+
+        if (${{ modelVariable }}->update($data)) {
+            return redirect()->route('{{ modelVariable }}s.index')->with(['success' => '{{ model }}  has been updated successfully !']);
+        }
+
+        return redirect('/', 500)->with(['error' => 'An unexpected error has occurred']);
+    }
+
+    /**
+     * Delete specified {{ model }}.
+     *
+     * @return RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        if (${{ modelVariable }}->delete()) {
+            return redirect()->route('{{ modelVariable }}s.index')->with(['success' => '{{ model }}  has been deleted successfully !']);
+        }
+
+        return redirect('/', 500)->with(['error' => 'An unexpected error has occurred']);
+    }
+}

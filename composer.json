@@ -1,0 +1,29 @@
+{
+    "name": "dy05/laravel-tricks",
+    "description": "Some tricks to use in Laravel Development",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Youta Obby Sidane",
+            "email": "dyosby237@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "laravel/framework": "^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dy05\\LaravelTricks\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dy05\\LaravelTricks\\LaravelTricksServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
